@@ -60,10 +60,19 @@ export default function ProduktTabelle({ produkte, onBearbeiten, onLoeschen }: P
 
   async function bestätigenLoeschen(id: string) {
     setLoeschenLaden(true)
-    await fetch(`/api/products/${id}`, { method: 'DELETE' })
-    onLoeschen(id)
-    setLoeschId(null)
-    setLoeschenLaden(false)
+    try {
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? `Fehler ${res.status}`)
+      }
+      onLoeschen(id)
+    } catch (err) {
+      alert(`Löschen fehlgeschlagen: ${err instanceof Error ? err.message : 'Unbekannter Fehler'}`)
+    } finally {
+      setLoeschId(null)
+      setLoeschenLaden(false)
+    }
   }
 
   const statusZeileKlasse: Record<string, string> = {

@@ -18,12 +18,14 @@ export async function PATCH(request: NextRequest, { params }: Params) {
   }
 
   const supabase = createServiceClient()
-  const { data, error } = await supabase
+  const { data, error, count } = await supabase
     .from('products')
     .update(body)
     .eq('id', params.id)
     .select()
     .single()
+
+  console.log('[PATCH]', params.id, { data: !!data, error: error?.message, count })
 
   if (error) {
     const status = error.code === 'PGRST116' ? 404 : 500
@@ -36,15 +38,25 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 // DELETE /api/products/[id]
 export async function DELETE(_: NextRequest, { params }: Params) {
   const supabase = createServiceClient()
-  const { error } = await supabase
+
+  // Use .select() to see what was actually deleted
+  const { data, error, count } = await supabase
     .from('products')
     .delete()
     .eq('id', params.id)
+    .select()
+
+  console.log('[DELETE]', params.id, { deletedRows: data?.length, error: error?.message, count })
 
   if (error) {
     const status = error.code === 'PGRST116' ? 404 : 500
     return NextResponse.json({ error: error.message }, { status })
   }
 
+  if (!data || data.length === 0) {
+    return NextResponse.json({ error: 'Produkt nicht gefunden oder Löschung blockiert' }, { status: 404 })
+  }
+
   return new NextResponse(null, { status: 204 })
 }
+

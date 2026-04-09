@@ -33,8 +33,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ fehler: 'Ungültiger JSON-Body' }, { status: 400 })
   }
 
+  console.log('[POST] body received:', JSON.stringify(body))
+
   const validierungsFehler = validiereProdukt(body)
   if (validierungsFehler) {
+    console.log('[POST] validation failed:', validierungsFehler)
     return NextResponse.json({ fehler: validierungsFehler }, { status: 422 })
   }
 
@@ -44,6 +47,8 @@ export async function POST(request: NextRequest) {
     .insert(body as NewProduct)
     .select()
     .single()
+
+  console.log('[POST] supabase result:', { data: !!data, error: error?.message, code: error?.code })
 
   if (error) {
     const status = error.code === '23505' ? 409 : 500 // 23505 = unique_violation (SKU bereits vorhanden)
