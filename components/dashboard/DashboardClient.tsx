@@ -45,7 +45,7 @@ export default function DashboardClient({ initialProdukte }: Props) {
 
       {/* ── Navigationsleiste ──────────────────────────────────── */}
       <header className="sticky top-0 z-30 border-b border-slate-200 bg-white shadow-sm">
-        <div className="mx-auto flex w-full items-center justify-between px-6 py-4">
+        <div className="mx-auto flex w-full items-center justify-between px-4 py-3 sm:px-6">
           <div className="flex items-center gap-3">
             {/* Logo */}
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 shadow-sm">
@@ -77,10 +77,10 @@ export default function DashboardClient({ initialProdukte }: Props) {
         </div>
       </header>
 
-      <main className="w-full space-y-8 px-6 py-8">
+      <main className="w-full space-y-6 px-4 py-6 sm:space-y-8 sm:px-6 sm:py-8">
 
         {/* ── Statistik-Karten ────────────────────────────────── */}
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <StatKarte
             icon={<KastenIcon />}
             label="Produkte gesamt"
