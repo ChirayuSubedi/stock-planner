@@ -13,49 +13,31 @@ Ein modernes, webbasiertes Inventar-Management-System, das speziell für den Edu
 - **CRUD-Management**: Einfaches Anlegen, Bearbeiten und Löschen von Produkten und Planungsparametern.
 - **Responsive Design**: Optimiert für verschiedene Monitorgrößen (24"-34") und mobile Endgeräte (Sticky Columns).
 
+## 🚀 Live Demo & Documentation
+
+- **Live Application**: [stock-planner-wheat.vercel.app](https://stock-planner-wheat.vercel.app/)
+- **Showcase & Roadmap**: [stock-planner-wheat.vercel.app/submission.html](https://stock-planner-wheat.vercel.app/submission.html)
+
 ## 🛠 Tech Stack
 
 - **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Icons**: [Lucide React](https://lucide.dev/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Datenbank**: [Supabase](https://supabase.com/) (PostgreSQL)
+- **Database**: [Supabase](https://supabase.com/) (PostgreSQL)
 - **Deployment**: [Vercel](https://vercel.com/)
-- **Authentifizierung**: Passwortgeschützter Zugang (Middleware-basiert)
+- **Architecture**: AI-Ready Supply Chain Automation
 
-## 📦 Installation & Setup
+## 🤖 Future Roadmap: AI & Automation
 
-1. **Repository klonen**:
-   ```bash
-   git clone <repository-url>
-   cd stock-planner
-   ```
-
-2. **Abhängigkeiten installieren**:
-   ```bash
-   npm install
-   ```
-
-3. **Umgebungsvariablen konfigurieren**:
-   Erstellen Sie eine `.env.local` Datei mit folgenden Werten:
-   ```env
-   NEXT_PUBLIC_SUPABASE_URL=...
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-   SUPABASE_SERVICE_ROLE_KEY=...
-   APP_PASSWORD=...
-   ```
-
-4. **Entwicklungsserver starten**:
-   ```bash
-   npm run dev
-   ```
-
-5. **Datenbank-Seeding** (Optional):
-   ```bash
-   npm run seed
-   ```
+Die nächste Ausbaustufe sieht eine tiefgreifende Integration von KI-Workflows (z.B. via n8n) vor:
+- **Smart Alerts**: Automatisierte Benachrichtigungen (Email/Anruf) bei Status "Überfällig".
+- **Human-in-the-Loop**: Ein-Klick-Bestätigung zur Freigabe von automatisierten Bestellungen.
+- **AI-Ordering**: Intelligente Nachbestellung direkt beim Lieferanten nach Freigabe.
 
 ## 👨‍💻 Architektur
 
 Die Anwendung folgt einer modernen Serverless-Architektur. Die Geschäftslogik für die Bestandsberechnungen ist in einem zentralen Modul (`lib/stockMetrics.ts`) gekapselt, um Konsistenz zwischen API und Frontend zu gewährleisten. Die Datenpersistenz erfolgt über Supabase mit sicherem Server-Side Access.
 
 ---
+**Chirayu Subedi** | [Portfolio](https://chirayusubedi.netlify.app/)
 Entwickelt im Rahmen des Edubini Hiring Challenge 2026.
