@@ -85,8 +85,8 @@ export default function ProduktTabelle({ produkte, onBearbeiten, onLoeschen }: P
     <div className="space-y-4">
       {/* Suchzeile */}
       <div className="flex items-center gap-3">
-        <div className="relative flex-1 max-w-sm">
-          <svg className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+        <div className="relative flex-1 max-w-md">
+          <svg className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400"
             fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round"
               d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
@@ -96,19 +96,19 @@ export default function ProduktTabelle({ produkte, onBearbeiten, onLoeschen }: P
             placeholder="Suche nach SKU oder Produktname …"
             value={suche}
             onChange={(e) => setSuche(e.target.value)}
-            className="w-full rounded-lg border border-slate-200 bg-slate-50 py-2.5 pl-9 pr-4 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 transition"
+            className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-5 text-base text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition"
           />
         </div>
         {suche && (
-          <span className="text-sm text-slate-500">
-            {sortiert.length} Ergebnis{sortiert.length !== 1 ? 'se' : ''}
+          <span className="text-sm font-medium text-slate-500">
+            {sortiert.length} Treffer
           </span>
         )}
       </div>
 
       {/* Tabelle */}
       <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm">
-        <table className="min-w-full divide-y divide-slate-100 text-sm">
+        <table className="min-w-full divide-y divide-slate-100 text-[15px]">
           <thead>
             <tr className="bg-slate-50">
               {spalten.map(({ key, label, rechts }) => (
@@ -116,7 +116,7 @@ export default function ProduktTabelle({ produkte, onBearbeiten, onLoeschen }: P
                   aktiv={sortKey === key} aufsteigend={sortAufst}
                   onClick={() => umschaltenSort(key as SortierKey)} />
               ))}
-              <th className="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-slate-400">
+              <th className="px-6 py-4 text-right text-sm font-bold uppercase tracking-wider text-slate-400">
                 Aktionen
               </th>
             </tr>
@@ -135,36 +135,36 @@ export default function ProduktTabelle({ produkte, onBearbeiten, onLoeschen }: P
               sortiert.map((p) => (
                 <tr key={p.id}
                   className={`group transition-colors hover:bg-slate-50/80 ${statusZeileKlasse[p.nachbestell_status] ?? ''}`}>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-slate-400">{p.sku}</td>
-                  <td className="px-4 py-3">
-                    <span className="font-medium text-slate-900">{p.name}</span>
+                  <td className="whitespace-nowrap px-6 py-4 font-mono text-sm text-slate-400">{p.sku}</td>
+                  <td className="px-6 py-4">
+                    <span className="font-semibold text-slate-900">{p.name}</span>
                   </td>
-                  <td className="px-4 py-3 text-right tabular-nums text-slate-600">{p.stock_shop.toLocaleString('de-DE')}</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-slate-600">{p.stock_amazon.toLocaleString('de-DE')}</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-slate-600">{p.stock_transit.toLocaleString('de-DE')}</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-slate-600">{p.stock_production.toLocaleString('de-DE')}</td>
-                  <td className="px-4 py-3 text-right tabular-nums font-semibold text-slate-900">{p.lagerbestand_gesamt.toLocaleString('de-DE')}</td>
-                  <td className="px-4 py-3 text-right tabular-nums text-slate-600">{p.daily_usage_gesamt.toFixed(1)}</td>
-                  <td className="px-4 py-3 text-right">
-                    <span className={`tabular-nums font-semibold ${p.tage_reichweite === Infinity ? 'text-slate-400' : p.tage_reichweite < 20 ? 'text-red-600' : p.tage_reichweite < 45 ? 'text-amber-600' : 'text-slate-900'}`}>
+                  <td className="px-6 py-4 text-right tabular-nums text-slate-600">{p.stock_shop.toLocaleString('de-DE')}</td>
+                  <td className="px-6 py-4 text-right tabular-nums text-slate-600">{p.stock_amazon.toLocaleString('de-DE')}</td>
+                  <td className="px-6 py-4 text-right tabular-nums text-slate-600">{p.stock_transit.toLocaleString('de-DE')}</td>
+                  <td className="px-6 py-4 text-right tabular-nums text-slate-600">{p.stock_production.toLocaleString('de-DE')}</td>
+                  <td className="px-6 py-4 text-right tabular-nums font-bold text-slate-900">{p.lagerbestand_gesamt.toLocaleString('de-DE')}</td>
+                  <td className="px-6 py-4 text-right tabular-nums text-slate-600">{p.daily_usage_gesamt.toFixed(1)}</td>
+                  <td className="px-6 py-4 text-right">
+                    <span className={`tabular-nums font-bold ${p.tage_reichweite === Infinity ? 'text-slate-400' : p.tage_reichweite < 20 ? 'text-red-600' : p.tage_reichweite < 45 ? 'text-amber-600' : 'text-slate-900'}`}>
                       {p.tage_reichweite === Infinity ? '∞' : p.tage_reichweite}
                     </span>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right text-slate-600">{formatDatum(p.voraussichtlicher_ausverkauf)}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right text-slate-600">{formatDatum(p.bestellfrist)}</td>
-                  <td className="px-4 py-3">{/* Lead Time */}
-                    <span className="tabular-nums text-slate-500">{p.lead_time_gesamt} T</span>
+                  <td className="whitespace-nowrap px-6 py-4 text-right text-slate-600">{formatDatum(p.voraussichtlicher_ausverkauf)}</td>
+                  <td className="whitespace-nowrap px-6 py-4 text-right text-slate-600">{formatDatum(p.bestellfrist)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className="tabular-nums font-medium text-slate-500">{p.lead_time_gesamt} T</span>
                   </td>
-                  <td className="px-4 py-3">
+                  <td className="px-6 py-4">
                     <StatusBadge status={p.nachbestell_status} />
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right">
+                  <td className="whitespace-nowrap px-6 py-4 text-right">
                     <button onClick={() => onBearbeiten(p)}
-                      className="mr-1 rounded-md px-2.5 py-1 text-xs font-medium text-blue-600 hover:bg-blue-50 transition">
+                      className="mr-2 rounded-lg px-3 py-1.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition">
                       Bearbeiten
                     </button>
                     <button onClick={() => setLoeschId(p.id)}
-                      className="rounded-md px-2.5 py-1 text-xs font-medium text-red-500 hover:bg-red-50 transition">
+                      className="rounded-lg px-3 py-1.5 text-sm font-semibold text-red-500 hover:bg-red-50 transition">
                       Löschen
                     </button>
                   </td>
@@ -232,8 +232,8 @@ function Spaltenkopf({ label, rechts, aktiv, aufsteigend, onClick }: {
 }) {
   return (
     <th onClick={onClick}
-      className={`cursor-pointer select-none whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide text-slate-400 hover:text-slate-700 transition ${rechts ? 'text-right' : 'text-left'}`}>
-      {label}{aktiv && <span className="ml-1 text-blue-500">{aufsteigend ? '↑' : '↓'}</span>}
+      className={`cursor-pointer select-none whitespace-nowrap px-6 py-4 text-sm font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700 transition ${rechts ? 'text-right' : 'text-left'}`}>
+      {label}{aktiv && <span className="ml-1 text-blue-600">{aufsteigend ? '↑' : '↓'}</span>}
     </th>
   )
 }
