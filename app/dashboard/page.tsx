@@ -4,6 +4,29 @@ import type { Product } from '@/types/product'
 
 export const dynamic = 'force-dynamic'
 
+/**
+ * Supabase/PostgREST liefert numeric(10,2)-Spalten als Strings (z. B. "63.33").
+ * Ohne Konvertierung schlagen alle Berechnungen in stockMetrics.ts fehl.
+ */
+function normalizeProduct(raw: Record<string, unknown>): Product {
+  return {
+    ...raw,
+    stock_shop:           Number(raw.stock_shop ?? 0),
+    stock_amazon:         Number(raw.stock_amazon ?? 0),
+    stock_transit:        Number(raw.stock_transit ?? 0),
+    stock_production:     Number(raw.stock_production ?? 0),
+    lead_time_produktion: Number(raw.lead_time_produktion ?? 0),
+    lead_time_qi:         Number(raw.lead_time_qi ?? 0),
+    lead_time_verladung:  Number(raw.lead_time_verladung ?? 0),
+    lead_time_import:     Number(raw.lead_time_import ?? 0),
+    lead_time_verzollung: Number(raw.lead_time_verzollung ?? 0),
+    lead_time_restocking: Number(raw.lead_time_restocking ?? 0),
+    daily_usage_shop:     Number(raw.daily_usage_shop ?? 0),
+    daily_usage_amazon:   Number(raw.daily_usage_amazon ?? 0),
+    safety_stock:         Number(raw.safety_stock ?? 0),
+  } as Product
+}
+
 export default async function DashboardSeite() {
   const supabase = createServiceClient()
 
@@ -26,5 +49,7 @@ export default async function DashboardSeite() {
     )
   }
 
-  return <DashboardClient initialProdukte={(data ?? []) as Product[]} />
+  const produkte = (data ?? []).map(normalizeProduct)
+
+  return <DashboardClient initialProdukte={produkte} />
 }

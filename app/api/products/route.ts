@@ -14,7 +14,14 @@ export async function GET() {
     return NextResponse.json({ fehler: error.message }, { status: 500 })
   }
 
-  return NextResponse.json(data)
+  // Supabase liefert numeric(10,2)-Spalten als Strings — hier normalisieren
+  const normalized = (data ?? []).map((row: Record<string, unknown>) => ({
+    ...row,
+    daily_usage_shop:   Number(row.daily_usage_shop ?? 0),
+    daily_usage_amazon: Number(row.daily_usage_amazon ?? 0),
+  }))
+
+  return NextResponse.json(normalized)
 }
 
 // POST /api/products — neues Produkt anlegen
