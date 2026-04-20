@@ -71,8 +71,10 @@ export default function ProduktBearbeitenDrawer({ produkt, onSchliessen, onAktua
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(form),
       })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.fehler ?? 'Speichern fehlgeschlagen')
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        throw new Error(json.error ?? json.fehler ?? `Fehler ${res.status}`)
+      }
       onAktualisiert()
       onSchliessen()
     } catch (err) {

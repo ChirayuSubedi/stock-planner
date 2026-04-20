@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useMemo, useState, useTransition } from 'react'
+import { useCallback, useEffect, useMemo, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import type { Product } from '@/types/product'
 import { produkteAnreichern } from '@/lib/stockMetrics'
@@ -19,16 +19,14 @@ export default function DashboardClient({ initialProdukte }: Props) {
   const [editProdukt, setEditProdukt] = useState<Product | null>(null)
   const [isPending,   startTransition] = useTransition()
 
+  // Sync state when server component re-fetches fresh data via router.refresh()
+  useEffect(() => {
+    setProdukte(initialProdukte)
+  }, [initialProdukte])
+
   const aktualisieren = useCallback(() => {
     startTransition(() => router.refresh())
-    fetch('/api/products', { cache: 'no-store' })
-      .then((r) => {
-        if (!r.ok) throw new Error(`HTTP ${r.status}`)
-        return r.json()
-      })
-      .then((data: Product[]) => setProdukte(data))
-      .catch(console.error)
-  }, [router])
+  }, [router, startTransition])
 
   function handleLoeschen(id: string) {
     setProdukte((prev) => prev.filter((p) => p.id !== id))

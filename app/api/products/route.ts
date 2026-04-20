@@ -23,7 +23,9 @@ export async function GET() {
     daily_usage_amazon: Number(row.daily_usage_amazon ?? 0),
   }))
 
-  return NextResponse.json(normalized)
+  return NextResponse.json(normalized, {
+    headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' },
+  })
 }
 
 // POST /api/products — neues Produkt anlegen
