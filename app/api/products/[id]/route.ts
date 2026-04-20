@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 import type { UpdateProduct } from '@/types/product'
 
-type Params = { params: { id: string } }
+export const dynamic = 'force-dynamic'
+
+type Params = { params: Promise<{ id: string }> }
 
 // PATCH /api/products/[id] — partial update
-export async function PATCH(request: NextRequest, { params }: Params) {
+export async function PATCH(request: NextRequest, props: Params) {
+  const params = await props.params
   let body: UpdateProduct
   try {
     body = await request.json()
@@ -36,10 +39,10 @@ export async function PATCH(request: NextRequest, { params }: Params) {
 }
 
 // DELETE /api/products/[id]
-export async function DELETE(_: NextRequest, { params }: Params) {
+export async function DELETE(_: NextRequest, props: Params) {
+  const params = await props.params
   const supabase = createServiceClient()
 
-  // Use .select() to see what was actually deleted
   const { data, error, count } = await supabase
     .from('products')
     .delete()

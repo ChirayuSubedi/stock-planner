@@ -21,8 +21,11 @@ export default function DashboardClient({ initialProdukte }: Props) {
 
   const aktualisieren = useCallback(() => {
     startTransition(() => router.refresh())
-    fetch('/api/products')
-      .then((r) => r.json())
+    fetch('/api/products', { cache: 'no-store' })
+      .then((r) => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`)
+        return r.json()
+      })
       .then((data: Product[]) => setProdukte(data))
       .catch(console.error)
   }, [router])

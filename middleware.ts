@@ -16,9 +16,9 @@ export function middleware(request: NextRequest) {
   const password = process.env.APP_PASSWORD
 
   if (!password) {
-    // APP_PASSWORD not set — fail open with a console warning (dev only)
-    console.warn('[stock-planner] APP_PASSWORD env var is not set. Auth is disabled.')
-    return NextResponse.next()
+    // APP_PASSWORD not configured — block all access rather than fail open
+    const loginUrl = new URL('/login', request.url)
+    return NextResponse.redirect(loginUrl)
   }
 
   if (!session || session !== password) {

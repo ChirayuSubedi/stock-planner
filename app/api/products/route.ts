@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase-server'
 import type { NewProduct } from '@/types/product'
 
+export const dynamic = 'force-dynamic'
+
 // GET /api/products — alle Produkte alphabetisch sortiert
 export async function GET() {
   const supabase = createServiceClient()
