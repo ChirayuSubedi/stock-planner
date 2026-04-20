@@ -3,6 +3,7 @@ import DashboardClient from '@/components/dashboard/DashboardClient'
 import type { Product } from '@/types/product'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 /**
  * Supabase/PostgREST liefert numeric(10,2)-Spalten als Strings (z. B. "63.33").
