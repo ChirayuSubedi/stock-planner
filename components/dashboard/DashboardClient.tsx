@@ -29,6 +29,7 @@ export default function DashboardClient({ initialProdukte }: Props) {
 
   function handleLoeschen(id: string) {
     setProdukte((prev) => prev.filter((p) => p.id !== id))
+    startTransition(() => router.refresh())
   }
 
   // Kennzahlen für Statistik-Karten
